@@ -100,9 +100,6 @@ if __name__ == '__main__':
         print "IP not change."
     else:
         print "IP changed.\n{}".format(show_ip)
-        ip_file = open(file_path,"w")
-        ip_file.write(str(show_ip))
-        ip_file.close()
         
         # Submit to OrayDDNS
         strCommit = "curl -s http://xxxxxxx:xxxxxxxOray@ddns.oray.com/ph/update?hostname=xxxxxxx&myip="+str(ipaddr)
@@ -110,6 +107,9 @@ if __name__ == '__main__':
         if 'good' in webinfo:
             print "Successfully commit to OrayDDNS."
             emailip="<font face=\"Courier New\" size=\"3\">WAN_IP: "+str(ipaddr)+"<br>"+"LAN_IP: "+str(lanip)+"<br>"+"Successfully commit to OrayDDNS.</font>"
+            ip_file = open(file_path,"w")
+            ip_file.write(str(show_ip))
+            ip_file.close()
         else:
             print "Failed to commit to OrayDDNS."
             emailip="<font face=\"Courier New\" size=\"3\">WAN_IP: "+str(ipaddr)+"<br>"+"LAN_IP: "+str(lanip)+"<br>"+"Failed to commit to OrayDDNS.</font>"
