@@ -105,8 +105,8 @@ if __name__ == '__main__':
         strCommit = "curl -s http://xxxxxxx:xxxxxxxOray@ddns.oray.com/ph/update?hostname=xxxxxxx&myip="+str(ipaddr)
         webinfo = os.popen(strCommit).read()
 		strCommit_EU = "curl -s https://xxxxxxx:xxxxxxx@dyn.dns.he.net/nic/update?hostname=xxxxxxx&myip="+str(ipaddr)
-		webinfo = os.popen(strCommit_EU).read()
-        if 'good' in webinfo:
+		webinfo_EU = os.popen(strCommit_EU).read()
+        if （'good' in webinfo or 'nochg' in webinfo) and ('good' in webinfo_EU or 'nochg' in webinfo_EU):
             print "Successfully commit to OrayDDNS."
             emailip="<font face=\"Courier New\" size=\"3\">WAN_IP: "+str(ipaddr)+"<br>"+"LAN_IP: "+str(lanip)+"<br>"+"Successfully commit to OrayDDNS.</font>"
             ip_file = open(file_path,"w")
