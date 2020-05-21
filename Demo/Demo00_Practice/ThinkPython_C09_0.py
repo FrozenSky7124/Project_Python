@@ -40,8 +40,21 @@ def uses_all(word, required):
         if letter not in word:
             return False
     return True
+
+# Practice 9.2.5
+def is_abecedarian(word):
+    previous = word[0]
+    for c in word:
+        if c < previous:
+            return False
+        previous = c
+    return True
+    
     
 if __name__ == '__main__':
     fin = open('.\\assets\\words.txt')
-    print_len20(fin)
+    for line in fin:
+        myword = fin.readline().strip()
+        if is_abecedarian(myword):
+            print(myword)
     fin.close()
