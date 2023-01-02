@@ -1,9 +1,10 @@
 #!/usr/bin/python
 import time
-downThres = 48
-upThres = 58
-baseThres = 40
-ratio = 5
+tempDown  = 48 # 起转温度(低于此温度风扇停转)
+tempUp    = 60 # 高温温度(高于此温度风扇进入最高速)
+speedBase = 50 # 基础转速(0~255)
+speedTop  =200 # 最高转速(0~255)
+ratio     =  5 # 转速系数
 sleepTime = 30
  
 while True:
@@ -15,20 +16,26 @@ while True:
     fo.close()
  
     thermal = thermal / 1000
-    print("Temperature: " + str(thermal))
+    #print("Temperature: " + str(thermal))
 
-    if thermal < downThres:
-        thermal = 0
-    elif thermal >= downThres and thermal < upThres:
-        thermal = baseThres + (thermal - downThres) * ratio
+    speed = speedBase
+
+    if thermal < tempDown:
+        speed = 0
+    elif thermal >= tempDown and thermal < tempUp:
+        speed = speedBase + (thermal - tempDown) * ratio
+    elif thermal >= tempUp:
+        speed = speedTop
     else:
-        thermal = thermal
- 
- 
-    thermal = str(thermal)
+        speed = speedBase
+
+    if speed > 255:
+        speed = 255
+    speed = str(speed)
+    print("Temperature: " + str(thermal) + "    FanSpeed: " + str(speed))
      
     fw=open("/sys/devices/pwm-fan/target_pwm","w")
-    fw.write(thermal)
+    fw.write(speed)
     fw.close()
  
     time.sleep(sleepTime)
